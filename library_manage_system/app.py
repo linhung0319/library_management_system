@@ -15,4 +15,6 @@ if __name__ == '__main__':
     hp_item_info = BookItemInfo(BookStatus.LOANED)
     my_copy = BookItem(hp_info, hp_item_info, Rack())
     print(my_copy.title)
+    print(LibraryRule.MAX_BOOKS_ISSUED_TO_A_USER)
+    
     
