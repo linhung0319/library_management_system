@@ -7,6 +7,7 @@ sys.path.append(os.path.join(script_dir, "../"))
 from library_manage_system.constants import *
 from library_manage_system.actor import *
 from library_manage_system.model import *
+from library_manage_system.service import *
 
 if __name__ == '__main__':
     p = Person(1,2,3,4)
@@ -17,4 +18,6 @@ if __name__ == '__main__':
     print(my_copy.title)
     print(LibraryRule.MAX_BOOKS_ISSUED_TO_A_USER)
     
+    bl_detail = BookLending.fetchLendingDetail("1234567")
+    print(bl_detail.bookItemBarcode)
     
