@@ -8,16 +8,21 @@ from library_manage_system.constants import *
 from library_manage_system.actor import *
 from library_manage_system.model import *
 from library_manage_system.service import *
+#from library_manage_system.dataloader import *
 
 if __name__ == '__main__':
     p = Person(1,2,3,4)
     x = Librarian(1,2,3,4)
-    hp_info = BookInfo(authors=["JK Rowling"], title='Harry Potter2')
-    hp_item_info = BookItemInfo(BookStatus.LOANED)
-    my_copy = BookItem(hp_info, hp_item_info, Rack())
+    my_copy = BookItem(author="JK Rowling", 
+                       title='Harry Potter2', 
+                       bookStatus=BookStatus.LOANED)
     print(my_copy.title)
     print(LibraryRule.MAX_BOOKS_ISSUED_TO_A_USER)
     
     bl_detail = BookLending.fetchLendingDetail("1234567")
-    print(bl_detail.bookItemBarcode)
+    print(bl_detail.bookItemBibNum)
+
+    #dataset = Dataset("./data/toy_Inventory.csv")
+    #dataset.load()
+    #LoadDataToBookItems.getBookItems(dataset)
     

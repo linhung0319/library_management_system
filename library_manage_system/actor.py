@@ -1,11 +1,6 @@
 from abc import ABC
 from library_manage_system.constants import *
 
-class Author(Person):
-    def __init__(self, name, address='', email='', phone='', description=''):
-        super(Author, self).__init__(name, address, email, phone)
-        self.description = description
-
 class Account(ABC):
     def __init__(self, id, password, person, status):
         self.__id = id

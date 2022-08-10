@@ -1,10 +1,10 @@
 class BookLending():
     def __init__(self, creationDate=None, dueDate=None, 
-                 returnDate=None, bookItemBarcode='', memberId=''):
+                 returnDate=None, bookItemBibNum=-1, memberId=''):
         self.__creationData = creationDate
         self.__dueDate = dueDate
         self.__returnDate = returnDate
-        self.__bookItemBarcode = bookItemBarcode
+        self.__bookItemBibNum = bookItemBibNum
         self.__memberId = memberId
 
     @property
@@ -12,9 +12,9 @@ class BookLending():
         return self.__returnDate
 
     @property
-    def bookItemBarcode(self):
-        return self.__bookItemBarcode
+    def bookItemBibNum(self):
+        return self.__bookItemBibNum
 
     @classmethod
-    def fetchLendingDetail(cls, bookItemBarcode):
-        return cls(bookItemBarcode=bookItemBarcode)
+    def fetchLendingDetail(cls, bookItemBibNum):
+        return cls(bookItemBibNum=bookItemBibNum)
