@@ -8,7 +8,7 @@ from library_manage_system.constants import *
 from library_manage_system.actor import *
 from library_manage_system.model import *
 from library_manage_system.service import *
-#from library_manage_system.dataloader import *
+from library_manage_system.dataloader import *
 
 if __name__ == '__main__':
     p = Person(1,2,3,4)
@@ -22,7 +22,8 @@ if __name__ == '__main__':
     bl_detail = BookLending.fetchLendingDetail("1234567")
     print(bl_detail.bookItemBibNum)
 
-    #dataset = Dataset("./data/toy_Inventory.csv")
-    #dataset.load()
-    #LoadDataToBookItems.getBookItems(dataset)
+    dataset = Dataset(DatasetInfo)
+    dataset.load()
+    BookItemsFactory(dataset).create()
+    library = LibraryFactory(dataset, Address()).create()
     
