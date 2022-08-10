@@ -1,4 +1,4 @@
-from library_manage_system.constants import Address, BookStatus
+from LMS.constants import Address, BookStatus
 
 class Library():
     def __init__(self, name, address: Address, bookItems: list):

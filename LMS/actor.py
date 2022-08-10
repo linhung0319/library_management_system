@@ -1,5 +1,5 @@
 from abc import ABC
-from library_manage_system.constants import *
+from LMS import *
 
 class Account(ABC):
     def __init__(self, id, password, person, status):

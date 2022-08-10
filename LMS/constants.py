@@ -1,6 +1,5 @@
 from enum import Enum
 from abc import ABC
-from unicodedata import name
 
 class DatasetInfo():
     FILE_NAME = "./data/toy_Inventory.csv"

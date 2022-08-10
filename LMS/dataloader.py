@@ -1,7 +1,7 @@
 import pandas as pd
 
-from library_manage_system.constants import DatasetInfo, Address
-from library_manage_system.model import Library, BookItem
+from LMS.constants import DatasetInfo, Address
+from LMS.model import Library, BookItem
 
 class Dataset():
     def __init__(self, info: DatasetInfo):

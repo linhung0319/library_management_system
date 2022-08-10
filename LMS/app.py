@@ -4,11 +4,11 @@ import os
 script_dir = os.path.dirname(__file__)
 sys.path.append(os.path.join(script_dir, "../"))
 
-from library_manage_system.constants import *
-from library_manage_system.actor import *
-from library_manage_system.model import *
-from library_manage_system.service import *
-from library_manage_system.dataloader import *
+from LMS.constants import *
+from LMS.actor import *
+from LMS.model import *
+from LMS.service import *
+from LMS.dataloader import *
 
 if __name__ == '__main__':
     p = Person(1,2,3,4)
