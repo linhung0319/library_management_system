@@ -34,4 +34,4 @@ class Address():
         self.country = country
 
 class BookStatus(Enum):
-    AVAILABLE, REVERSED, LOANED, LOST, NONE = 1, 2, 3, 4, 5
+    AVAILABLE, RESERVED, LOANED, LOST, NONE = 1, 2, 3, 4, 5
