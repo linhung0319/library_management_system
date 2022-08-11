@@ -1,9 +1,10 @@
 from abc import ABC
-from LMS import *
+from LMS.constants import AccountStatus, Person
 
 class Account(ABC):
-    def __init__(self, id, password, person, status):
-        self.__id = id
+    def __init__(self, accountId, password, 
+                 person: Person, status: AccountStatus):
+        self.__accountId = accountId
         self.__password = password
         self.__person = person
         self.__status = status
@@ -12,8 +13,9 @@ class Account(ABC):
         self.__password = password
 
 class Librarian(Account):
-    def __init__(self, id, password, person, status):
-        super(Librarian, self).__init__(id, password, person, status)
+    def __init__(self, accountId, password, 
+                 person: Person, status: AccountStatus):
+        super(Librarian, self).__init__(accountId, password, person, status)
 
     def addBookItem(self):
         pass
@@ -25,8 +27,9 @@ class Librarian(Account):
         pass
 
 class Member(Account):
-    def __init__(self, id, password, person, status):
-        super(Member, self).__init__(id, password, person, status)
+    def __init__(self, accountId, password, 
+                 person: Person, status: AccountStatus):
+        super(Member, self).__init__(accountId, password, person, status)
 
     def getTotalCheckoutBook(self):
         pass
