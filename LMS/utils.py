@@ -3,25 +3,15 @@ import datetime
 import logging
 logger = logging.getLogger(__name__)
 
-class ClockDirector():
-    # Use strategy pattern for different type of clock.
-    # Use singleton because only one time-object is allowed
-    def __init__(self, clock: Clock):
-        self.__clock = clock
-
-    def now(self):
-        return self.__clock.now()
-
-    def n_day_pass(self, n:int):
-        self.__clock.n_day_pass(n)
-
 class Clock(ABC):
+    @classmethod
     @abstractmethod
-    def now(self):
+    def now(cls):
         raise NotImplementedError
 
+    @classmethod
     @abstractmethod
-    def n_day_pass(self, n:int):
+    def n_day_pass(cls, n:int):
         raise NotImplementedError
 
 class VirtualClock(Clock):
@@ -33,24 +23,44 @@ class VirtualClock(Clock):
         __now (datetime.date): We store the time here
 
     """
-    def __init__(self):
-        self.__now = datetime.date.today()
+    __now = datetime.date.today()
 
-    def now(self):
-        return self.__now
+    @classmethod
+    def now(cls):
+        return cls.__now
 
-    def n_day_pass(self, n:int):
+    @classmethod
+    def n_day_pass(cls, n:int):
         """The time passes n days.
 
         Args:
             n (int): n days
         """
-        self.__now = self.__now + datetime.timedelta(days=n)
-
+        cls.__now = cls.__now + datetime.timedelta(days=n)
 class RealClock(Clock):
+    
+    @classmethod
     def now(self):
         return datetime.date.today()
 
+    @classmethod
     def n_day_pass(self, n:int):
         msg = "Nothing happens. RealClock does not have this method"
         logger.warning(msg)
+
+class ClockInterface():
+    """Use strategy pattern for different types of Clock.
+    """
+    __clock = RealClock
+
+    @classmethod
+    def setClock(cls, clock):
+        cls.__clock = clock
+
+    @classmethod
+    def now(cls):
+        return cls.__clock.now()
+
+    @classmethod
+    def n_day_pass(cls, n:int):
+        cls.__clock.n_day_pass(n)
