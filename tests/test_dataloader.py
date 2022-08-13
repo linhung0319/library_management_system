@@ -18,7 +18,7 @@ class Test_BookItemsFactory(unittest.TestCase):
         TRUE_publicationYear = oneBookData[dI.COLUMNS["publicationYear"]].values[0]
         
         bIF= BookItemsFactory(dataset)
-        oneBook = bIF.create()[0]
+        oneBook = bIF.create()[TRUE_bibNum]
         self.assertEqual(oneBook.bibNum, TRUE_bibNum)
         self.assertEqual(oneBook.ISBN, TRUE_ISBN)
         self.assertEqual(oneBook.title, TRUE_title)

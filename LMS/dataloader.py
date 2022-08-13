@@ -25,7 +25,7 @@ class Dataset():
         return self.__COLUMNS
 
 class LibraryFactory():
-    def __init__(self, dataset: Dataset, address: Address, name='Seattle Public Library'):
+    def __init__(self, dataset: Dataset, address: Address=Address(), name='Seattle Public Library'):
         self.__dataset = dataset
         self.__name = name
         self.__address = address
@@ -41,10 +41,10 @@ class BookItemsFactory():
         self.__dataset = dataset
 
     def create(self):
-        bookItems = []
+        bookItems = {}
         for _, row in self.__dataset.df.iterrows():
             bookItem = self.parseDataToBookItem(row)
-            bookItems.append(bookItem)
+            bookItems[bookItem.bibNum] = bookItem
         return bookItems
 
     def parseDataToBookItem(self, row):
