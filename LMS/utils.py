@@ -64,3 +64,37 @@ class ClockInterface():
     @classmethod
     def n_day_pass(cls, n:int):
         cls.__clock.n_day_pass(n)
+
+class Search(ABC):
+    def __init__(self, library):
+        self.__library = library
+    
+    @abstractmethod
+    def searchByTitle(self, query):
+        pass
+
+    @abstractmethod
+    def searchByAuthor(self, query):
+        pass
+
+    @abstractmethod
+    def searchBySubject(self, query):
+        pass
+
+    @abstractmethod
+    def searchByPubDate(self, pubDate):
+        pass
+
+
+class Catalog(Search):
+    def searchByTitle(self, query):
+        print("")
+
+    def searchByAuthor(self, query):
+        print("")
+
+    def searchBySubject(self, query):
+        print("")
+
+    def searchByPubDate(self, pubDate):
+        print("")
