@@ -1,6 +1,8 @@
+import logging
 import sys
 import os
 
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 script_dir = os.path.dirname(__file__)
 sys.path.append(os.path.join(script_dir, "../"))
 
@@ -9,21 +11,18 @@ from LMS.actor import *
 from LMS.model import *
 from LMS.service import *
 from LMS.dataloader import *
+from LMS.utils import *
 
 if __name__ == '__main__':
-    p = Person(1,2,3,4)
-    x = Librarian(1,2,3,4)
-    my_copy = BookItem(author="JK Rowling", 
-                       title='Harry Potter2', 
-                       bookStatus=BookStatus.LOANED)
-    print(my_copy.title)
-    print(LibraryRule.MAX_BOOKS_ISSUED_TO_A_USER)
+    clock = ClockInterface()
+    clock.setClock(VirtualClock)
     
-    bl_detail = BookLending.fetchLendingDetail("1234567")
-    print(bl_detail.bookItemBibNum)
-
     dataset = Dataset(DatasetInfo)
     dataset.load()
-    BookItemsFactory(dataset).create()
-    library = LibraryFactory(dataset, Address()).create()
-    
+
+    library_factory = LibraryFactory(dataset)
+    library = library_factory.create()
+    library_service = IssueService(library)
+
+    #member1 = Member(library_service, "Account", "1234")
+    #member1.checkout_book(1)

@@ -4,13 +4,13 @@ from abc import ABC
 class DatasetInfo():
     FILE_NAME = "./data/toy_Inventory.csv"
     COLUMNS = {
-        "bibNum" : "BibNum",
+        "bib_num" : "BibNum",
         "ISBN" : "ISBN",
         "title" : "Title",
         "author" : "Author",
         "subjects" : "Subjects",
         "publisher" : "Publisher",
-        "publicationYear" : "PublicationYear"
+        "publication_year" : "PublicationYear"
     }
 class LibraryRule():
     MAX_BOOKS_ISSUED_TO_A_USER = 5
@@ -19,7 +19,7 @@ class AccountStatus(Enum):
     ACTIVE, CLOSED, CANCELED, BLACKLISTED, NONE = 1, 2, 3, 4, 5
 
 class Person():
-    def __init__(self, name, address='', email='', phone=''):
+    def __init__(self, name='', address='', email='', phone=''):
         self.name = name
         self.address = address
         self.email = email

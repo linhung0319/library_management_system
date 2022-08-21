@@ -37,24 +37,24 @@ class Book():
 class BookItem(Book):
     def __init__(self, author='', ISBN='', 
                  title='', subjects='', publisher='',
-                 bibNum='', publicationYear=None,
-                 borrowDate=None, dueDate=None, 
-                 bookStatus: BookStatus=BookStatus.AVAILABLE):
+                 bib_num='', publication_year=None,
+                 borrow_date=None, due_date=None, 
+                 status: BookStatus=BookStatus.AVAILABLE):
         super(BookItem, self).__init__(author, ISBN, title, 
                                        subjects, publisher)
         
-        self.__bibNum = bibNum
-        self.__publicationYear = publicationYear
+        self.__bib_num = bib_num
+        self.__publication_year = publication_year
         
-        self.__borrowDate = borrowDate
-        self.__dueDate = dueDate
-        self.__bookStatus = bookStatus
+        self.__borrow_date = borrow_date
+        self.__due_date = due_date
+        self.__status = status
 
     def checkout(self):
-        if self.bookItem.bookStatus == BookStatus.AVAILABLE :
-            self.bookStatus = BookStatus.LOANED
-            self.borrowDate = ClockInterface.now()
-            self.dueDate += timedelta(days=LibraryRule.MAX_LENDING_DAYS)
+        if self.status == BookStatus.AVAILABLE :
+            self.status = BookStatus.LOANED
+            self.borrow_date = ClockInterface().now()
+            self.due_date += timedelta(days=LibraryRule.MAX_LENDING_DAYS)
             return True
         else:
             msg = """The book status is in {}. You can \ 
@@ -63,42 +63,72 @@ class BookItem(Book):
             return False
 
     @property
-    def bibNum(self):
-        return self.__bibNum
+    def bib_num(self):
+        return self.__bib_num
 
     @property
-    def publicationYear(self):
-        return self.__publicationYear
+    def publication_year(self):
+        return self.__publication_year
     
     @property
-    def borrowDate(self):
-        return self.__borrowDate
+    def borrow_date(self):
+        return self.__borrow_date
 
     @property
-    def dueDate(self):
-        return self.__dueDate
+    def due_date(self):
+        return self.__due_date
 
-    @dueDate.setter
-    def dueDate(self, dueDate: date):
-        self.__dueDate = dueDate
+    @due_date.setter
+    def due_date(self, due_date: date):
+        self.__due_date = due_date
 
     @property
-    def bookStatus(self):
-        return self.__bookStatus
+    def status(self):
+        return self.__status
 
-    @bookStatus.setter
-    def bookStatus(self, status: BookStatus):
-        self.__bookStatus = status
+    @status.setter
+    def status(self, status: BookStatus):
+        self.__status = status
 
 class Library():
-    def __init__(self, name, address: Address, bookItems: dict):
+    def __init__(self, name, address: Address, book_items: dict):
         self.__name = name
         self.__address = address
-        self.__bookItems = bookItems
-
+        self.__book_items = book_items
+        
     def __len__(self):
-        return len(self.__bookItems)
+        return len(self.__book_items)
 
     @property
-    def bookItems(self):
-        return self.__bookItems
+    def book_items(self):
+        return self.__book_items
+
+class BookIssueRecord():
+    def __init__(self):
+        self.__lending_history = []
+        self.__lending_ongoing = {}
+        self.__reservation_history = []
+        self.__reservation_ongoing = {}
+
+    def checkout_book(self, book_lending):
+        member_id = book_lending
+        self.__lending_ongoing[member_id] = self.__lending_ongoing.get(member_id, []) + [book_lending]
+        return True
+    
+    def return_book(self, bib_num, member_id):
+        lendings = self.__lending_ongoing[member_id]
+        found = False
+        for i , lending in enumerate(lendings):
+            if lending.bib_num == bib_num:
+                found = True
+                break
+        if found:
+            lendings.pop(i)
+            self.__lending_history.append(lending)
+            return True
+        logger.warning("Book lending detail is not found")
+        return False
+        
+
+    def reserve_book(self):
+        pass

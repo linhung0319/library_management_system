@@ -3,13 +3,17 @@ import datetime
 import logging
 logger = logging.getLogger(__name__)
 
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return  cls._instances[cls]
 class Clock(ABC):
-    @classmethod
     @abstractmethod
     def now(cls):
         raise NotImplementedError
 
-    @classmethod
     @abstractmethod
     def n_day_pass(cls, n:int):
         raise NotImplementedError
@@ -23,47 +27,45 @@ class VirtualClock(Clock):
         __now (datetime.date): We store the time here
 
     """
-    __now = datetime.date.today()
+    
+    def __init__(self):
+        self.__now = datetime.date.today()
 
-    @classmethod
-    def now(cls):
-        return cls.__now
+    def now(self):
+        return self.__now
 
-    @classmethod
-    def n_day_pass(cls, n:int):
+    def n_day_pass(self, n:int):
         """The time passes n days.
 
         Args:
             n (int): n days
         """
-        cls.__now = cls.__now + datetime.timedelta(days=n)
+        self.__now = self.__now + datetime.timedelta(days=n)
 class RealClock(Clock):
     
-    @classmethod
     def now(self):
         return datetime.date.today()
 
-    @classmethod
     def n_day_pass(self, n:int):
         msg = "Nothing happens. RealClock does not have this method"
         logger.warning(msg)
-
-class ClockInterface():
+class ClockInterface(metaclass=Singleton):
     """Use strategy pattern for different types of Clock.
+       The ClockInterface need to be shared among different 
+       object and we need to keep the clock synchronized, so 
+       singleton is used.
     """
-    __clock = RealClock
+    def __init__(self):
+        self.__clock = RealClock()
+    
+    def setClock(self, clock):
+        self.__clock = clock
 
-    @classmethod
-    def setClock(cls, clock):
-        cls.__clock = clock
+    def now(self):
+        return self.__clock.now()
 
-    @classmethod
-    def now(cls):
-        return cls.__clock.now()
-
-    @classmethod
-    def n_day_pass(cls, n:int):
-        cls.__clock.n_day_pass(n)
+    def n_day_pass(self, n:int):
+        self.__clock.n_day_pass(n)
 
 class Search(ABC):
     def __init__(self, library):

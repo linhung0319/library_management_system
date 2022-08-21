@@ -31,23 +31,23 @@ class LibraryFactory():
         self.__address = address
 
     def create(self):
-        bookItems = BookItemsFactory(self.__dataset).create()
+        book_items = BookItemsFactory(self.__dataset).create()
         return Library(name=self.__name, 
                        address=self.__address, 
-                       bookItems=bookItems) 
+                       book_items=book_items) 
 
 class BookItemsFactory():
     def __init__(self, dataset: Dataset):
         self.__dataset = dataset
 
     def create(self):
-        bookItems = {}
+        book_items = {}
         for _, row in self.__dataset.df.iterrows():
-            bookItem = self.parseDataToBookItem(row)
-            bookItems[bookItem.bibNum] = bookItem
-        return bookItems
+            book_item = self.parse_data_to_bookItem(row)
+            book_items[book_item.bib_num] = book_item
+        return book_items
 
-    def parseDataToBookItem(self, row):
+    def parse_data_to_bookItem(self, row):
         args = {}
         for k, v in self.__dataset.COLUMNS.items():
             args[k] = row[v]
